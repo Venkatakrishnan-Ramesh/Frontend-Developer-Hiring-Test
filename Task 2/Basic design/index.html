@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Users</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		th, td {
+			text-align: left;
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+			cursor: pointer;
+		}
+		tr:hover {
+			background-color: #f5f5f5;
+		}
+		.sort-asc::after {
+			content: ' ▲';
+		}
+		.sort-desc::after {
+			content: ' ▼';
+		}
+	</style>
+</head>
+<body>
+	<h1>Users</h1>
+	<table>
+		<thead>
+			<tr>
+				<th class="sort" data-sortby="id">Id</th>
+				<th class="sort" data-sortby="name">Name</th>
+				<th class="sort" data-sortby="username">Username</th>
+				<th class="sort" data-sortby="email">Email</th>
+			</tr>
+		</thead>
+		<tbody id="users"></tbody>
+	</table>
+
+	<script>
+		const users = [];
+		let sortColumn = 'id';
+		let sortOrder = 'asc';
+
+		// Fetch data from API and populate table
+		fetch('https://jsonplaceholder.typicode.com/users')
+			.then(response => response
