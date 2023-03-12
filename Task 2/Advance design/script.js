@@ -1,68 +1,42 @@
-const searchInput = document.getElementById('searchInput');
-const userData = document.getElementById('userData').tBodies[0].rows;
+const searchInput = document.querySelector('#search-bar');
+const tableRows = document.querySelectorAll('table tbody tr');
+const apiUrl = 'https://jsonplaceholder.typicode.com/users';
 
-fetch('https://jsonplaceholder.typicode.com/users')
-	.then(response => response.json())
-	.then(data => {
-		data.forEach(user => {
-			const row = document.createElement('tr');
-			const id = document.createElement('td');
-			const name = document.createElement('td');
-			const username = document.createElement('td');
-			const email = document.createElement('td');
-			
-			id.textContent = user.id;
-			name.textContent = user.name;
-			username.textContent = user.username;
-			email.textContent = user.email;
-			
-			row.appendChild(id);
-			row.appendChild(name);
-			row.appendChild(username);
-			row.appendChild(email);
-			
-			document.getElementById('userData').appendChild(row);
-		});
-	})
-	.catch(error => console.error(error));
-
-searchInput.addEventListener('keyup', function() {
-	const searchTerm = searchInput.value.toLowerCase();
-	
-	for (let i = 0; i < userData.length; i++) {
-		let found = false;
-		const cells = userData[i].cells;
-		
-		for (let j = 0; j < cells.length; j++) {
-			const cellValue = cells[j].textContent.toLowerCase();
-			
-			if (cellValue.includes(searchTerm)) {
-				found = true;
-				break;
-			}
-		}
-		
-		if (found) {
-			userData[i].style.display = '';
-		} else {
-			userData[i].style.display = 'none';
-		}
-	}
-});
-
-function toggleFullScreen() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen(); 
+// Function to filter table rows based on search input
+const filterTableRows = () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  tableRows.forEach((row) => {
+    const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+    const username = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+    if (name.includes(searchTerm) || username.includes(searchTerm)) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
     }
-  }
-}
+  });
+};
 
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'F11') {
-    event.preventDefault();
-    toggleFullScreen();
-  }
-});
+// Add event listener to search input
+searchInput.addEventListener('input', filterTableRows);
+
+// Function to create table rows from API data
+const createTableRows = (data) => {
+  const tableBody = document.querySelector('table tbody');
+  tableBody.innerHTML = '';
+  data.forEach((user) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${user.id}</td>
+      <td>${user.name}</td>
+      <td>${user.username}</td>
+      <td>${user.email}</td>
+    `;
+    tableBody.appendChild(row);
+  });
+};
+
+// Fetch API data and create table rows
+fetch(apiUrl)
+  .then((response) => response.json())
+  .then((data) => createTableRows(data))
+  .catch((error) => console.error(error));

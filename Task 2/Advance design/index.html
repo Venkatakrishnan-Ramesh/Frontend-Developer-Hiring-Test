@@ -1,26 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>User Data</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <title>Users Table</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<div class="container">
-		<h1>User Data</h1>
-		<input type="text" id="searchInput" placeholder="Search...">
-		<table id="userData">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>Username</th>
-					<th>Email</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-	</div>
-	<script type="text/javascript" src="script.js"></script>
+    <div class="container">
+        <h1>Users Table</h1>
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Search users...">
+        </div>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
